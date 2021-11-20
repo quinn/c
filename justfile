@@ -8,6 +8,3 @@ lex stage:
 	for file in tmp/examples/stage_{{stage}}/**/*(.); do 
 		bin/lex $file
 	done
-
-
-
