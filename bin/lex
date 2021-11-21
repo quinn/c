@@ -30,7 +30,7 @@ File.open(ARGV.last).each_char do |char|
     if curconst.length > 0
         if Token.keywords.include? curconst
             tokens << [Token::KEYWORD, curconst]
-        elsif curconst =~ /[0-9]/
+        elsif curconst =~ /^[0-9]+$/
             tokens << [Token::CONST, curconst]
         else
             tokens << [Token::ID, curconst]
