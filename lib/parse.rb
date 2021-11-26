@@ -11,6 +11,8 @@ class Node
 end
 
 class Program < Node
+  attr_reader :function
+
   def parse!
     @function = Function.new(tokens).parse!
 
@@ -21,11 +23,13 @@ class Program < Node
 end
 
 class Statement < Node
+  attr_reader :is_return, :expression
+
   def parse!
     token = tokens.shift
 
     if token.type == Token::KEYWORD && token.value == 'return'
-      @return = true
+      @is_return = true
     else
       tokens.unshift(token)
     end
@@ -37,6 +41,8 @@ class Statement < Node
 end
 
 class Expression < Node
+  attr_reader :constant_value
+
   def parse!
     token = tokens.shift
     raise ParseError, format('unexepected, got %<type>s : %<value>s', **token) unless token.type == Token::CONST
@@ -51,7 +57,7 @@ class Expression < Node
 end
 
 class Function < Node
-  attr_reader :return_type, :id
+  attr_reader :return_type, :id, :statements
 
   def parse!
     @statements = []
