@@ -37,6 +37,6 @@ class Compile
 
   def compile!
     main = compiler.ast.function
-    puts main.compile!
+    main.compile!
   end
 end
