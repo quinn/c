@@ -1,9 +1,12 @@
-#!/usr/bin/env ruby
-# frozen_string_literal: true
+#!/bin/bash
 
-require 'zeitwerk'
-loader = Zeitwerk::Loader.new
-loader.push_dir('./lib')
-loader.setup # ready!
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-Cmd.compile_from_argv!
+source_path=$1
+bin_path=${source_path%.c}
+asm_path=$bin_path.s
+
+ruby -r $SCRIPT_DIR/../load -e "puts Cmd.compile_from_argv!" $source_path > $asm_path
+
+gcc $asm_path -o $bin_path
+# rm $asm_path

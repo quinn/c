@@ -40,11 +40,27 @@ class Statement < Node
   end
 end
 
+class Operator < Node
+  attr_reader :token
+
+  def initialize(token)
+    super
+    @token = token
+  end
+end
+
 class Expression < Node
-  attr_reader :constant_value
+  attr_reader :constant_value, :operator, :expression
 
   def parse!
     token = tokens.shift
+
+    if token.operator?
+      @operator = Operator.new(token)
+      @expression = Expression.new(tokens).parse!
+      return self
+    end
+
     raise ParseError, format('unexepected, got %<type>s : %<value>s', **token) unless token.type == Token::CONST
 
     @constant_value = token.value

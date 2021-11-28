@@ -19,11 +19,41 @@ class Statement
   end
 end
 
+class Operator
+  def compile!
+    case token.type
+    when Token::NEG
+      <<~ASM
+        neg     %eax
+      ASM
+    when Token::BIT_COMP
+      <<~ASM
+        not     %eax
+      ASM
+    when Token::BANG
+      <<~ASM
+        cmpl   $0, %eax
+        movl   $0, %eax
+        sete   %al
+      ASM
+    else
+      raise GenerateError, "unkown operator token #{operator.type}"
+    end
+  end
+end
+
 class Expression
   def compile!
-    <<~ASM
-      movl    $#{constant_value}, %eax
-    ASM
+    if operator
+      <<~ASM
+        #{expression.compile!}
+        #{operator.compile!}
+      ASM
+    elsif constant_value
+      <<~ASM
+        movl    $#{constant_value}, %eax
+      ASM
+    end
   end
 end
 

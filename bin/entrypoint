@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+ROOT = File.expand_path(File.join(__dir__, '..'))
+
+require File.join(ROOT, 'load')
+
+puts Cmd.compile_from_argv!

@@ -1,42 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-class Token
-  BLOCK = :BLOCK
-  END_BLOCK = :END_BLOCK
-  PAREN = :PAREN
-  END_PAREN = :END_PAREN
-  KEYWORD = :KEYWORD
-  CONST = :CONST
-  TERM = :TERM
-  ID = :ID
-
-  def self.keywords
-    %w[
-      int
-      return
-    ]
-  end
-
-  attr_reader :type, :value
-
-  def initialize(type, value)
-    @type = type
-    @value = value
-  end
-
-  def to_hash
-    {
-      type: @type,
-      value: @value
-    }
-  end
-
-  def to_s
-    format('<Token::%<type>s %<value>s', **to_hash)
-  end
-end
-
 class Lex
   attr_accessor :tokens, :curconst
   attr_reader :compiler
@@ -74,6 +38,9 @@ class Lex
         when '(' then [Token::PAREN, char]
         when ')' then [Token::END_PAREN, char]
         when ';' then [Token::TERM, char]
+        when '-' then [Token::NEG, char]
+        when '~' then [Token::BIT_COMP, char]
+        when '!' then [Token::BANG, char]
         when /\s/ then next
         else
           raise format('unknown token %s', char.inspect)

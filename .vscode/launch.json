@@ -5,6 +5,36 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/tmp/bin",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "Bash-Debug (hardcoded script name)",
+            "cwd": "${workspaceFolder}/tmp/examples",
+            "program": "${workspaceFolder}/tmp/examples/test_compiler.sh",
+            "args": [
+                "../../bin/compile",
+                "1"
+            ]
+        },
+        {
             "name": "RSpec - active spec file only",
             "type": "Ruby",
             "request": "launch",
@@ -12,16 +42,16 @@
             "args": [
                 "-I",
                 "${workspaceRoot}",
-                "${file}"
+                "test/all.rb"
             ]
         },
         {
             "name": "Debug Local File",
             "type": "Ruby",
             "request": "launch",
-            "program": "${workspaceRoot}/bin/compile",
+            "program": "${workspaceRoot}/bin/entrypoint",
             "args": [
-                "tmp/examples/stage_1/valid/multi_digit.c"
+                "tmp/examples/stage_2/valid/neg.c"
             ]
         }
     ]
