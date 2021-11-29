@@ -5,4 +5,8 @@ ROOT = File.expand_path(File.join(__dir__, '..'))
 
 require File.join(ROOT, 'load')
 
-puts Cmd.compile_from_argv!
+if ARGV.include? 'graph'
+  Cmd.graph_from_argv!
+else
+  puts Cmd.compile_from_argv!
+end

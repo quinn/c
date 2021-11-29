@@ -2,24 +2,25 @@
 
 module Node
   class BinOp < Abstract
-    attr_reader :operator, :left_expr, :right_expr
+    attr_reader :operator, :left, :right
 
-    def initialize(tokens, operator:, left_expr:)
+    def initialize(tokens, operator:, left:, right:)
       super(tokens)
       @operator = operator
-      @left_expr = left_expr
+      @left = left
+      @right = right
     end
 
     def parse!
-      @right_expr = Expression.new(tokens).parse!
       self
     end
 
     def gen!
-      buf << right_expr.gen!
+      buf = String.new
+      buf << left.gen!
       buf << "push %rax\n"
 
-      buf = left_expr.gen!
+      buf << right.gen!
       buf << "pop %rbx\n"
 
       case operator.type
@@ -40,6 +41,14 @@ module Node
       end
 
       buf
+    end
+
+    def graph!(graph, parent)
+      s = graph.add_nodes(object_id.to_s, label: "BinOp(#{operator.value})")
+      graph.add_edges(parent, s)
+
+      left.graph!(graph, s)
+      right.graph!(graph, s)
     end
   end
 end

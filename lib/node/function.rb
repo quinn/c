@@ -56,6 +56,15 @@ module Node
       ASM
     end
 
+    def graph!(graph, parent)
+      s = graph.add_nodes("Function(#{id})")
+      graph.add_edges(parent, s)
+
+      statements.each do |statement|
+        statement.graph!(graph, s)
+      end
+    end
+
     private
 
     def return_types

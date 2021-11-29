@@ -5,7 +5,6 @@ class Generate
 
   def initialize(compiler)
     @compiler = compiler
-    @buf = ''
   end
 
   def gen!

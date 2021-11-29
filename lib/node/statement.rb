@@ -26,5 +26,11 @@ module Node
         #{is_return ? 'ret' : ''}
       ASM
     end
+
+    def graph!(graph, parent)
+      s = graph.add_nodes("Statement(#{is_return ? 'return' : ''})")
+      graph.add_edges(parent, s)
+      expression.graph!(graph, s)
+    end
   end
 end

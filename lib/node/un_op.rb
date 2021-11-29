@@ -35,5 +35,12 @@ module Node
           raise GenerateError, "unkown unary operator token #{operator}"
         end
     end
+
+    def graph!(graph, parent)
+      s = graph.add_nodes("UnOp(#{operator})")
+      graph.add_edges(parent, s)
+
+      factor.graph!(graph, s)
+    end
   end
 end

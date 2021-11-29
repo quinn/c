@@ -33,5 +33,10 @@ module Node
         mov    $#{constant_value}, %rax
       ASM
     end
+
+    def graph!(graph, parent)
+      s = graph.add_nodes("Factor(#{constant_value})")
+      graph.add_edges(parent, s)
+    end
   end
 end

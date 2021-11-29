@@ -14,5 +14,11 @@ module Node
 
       self
     end
+
+    def graph!(g)
+      p = g.add_nodes('Program')
+
+      function.graph!(g, p)
+    end
   end
 end
