@@ -39,12 +39,12 @@ shared_examples 'stage' do |stage|
   context 'compiles' do
     valid.each do |filepath|
       it filepath do
-        asm = Cmd.compile!(filepath)
-        asm_path = File.join(ROOT, 'tmp/out.s')
-        File.write(asm_path, asm)
+        actual_bin_path = filepath.sub(/\.c$/, '')
+        asm_path = "#{actual_bin_path}.s"
+        expected_bin_path = "#{actual_bin_path}_expected"
 
-        actual_bin_path = File.join(ROOT, 'tmp/bin')
-        expected_bin_path = File.join(ROOT, 'tmp/exected_bin')
+        asm = Cmd.gen!(filepath)
+        File.write(asm_path, asm)
 
         system('gcc', '-w', filepath, '-o', expected_bin_path)
         system(expected_bin_path)
@@ -56,17 +56,17 @@ shared_examples 'stage' do |stage|
 
         actual_status = $CHILD_STATUS.exitstatus
 
-        FileUtils.rm asm_path
-        FileUtils.rm actual_bin_path
-        FileUtils.rm expected_bin_path
+        # FileUtils.rm asm_path
+        # FileUtils.rm actual_bin_path
+        # FileUtils.rm expected_bin_path
 
-        expect(expected_status).to eq(actual_status)
+        expect(actual_status).to eq(expected_status)
       end
     end
 
     invalid.each do |filepath|
       it filepath do
-        expect { Cmd.compile! filepath }.to raise_error(ParseError)
+        expect { Cmd.gen! filepath }.to raise_error(ParseError)
       end
     end
   end
@@ -75,4 +75,5 @@ end
 describe 'compiler' do
   it_behaves_like 'stage', 1
   it_behaves_like 'stage', 2
+  it_behaves_like 'stage', 3
 end

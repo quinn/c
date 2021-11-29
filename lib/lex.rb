@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # frozen_string_literal: true
 
 class Lex
@@ -41,6 +40,9 @@ class Lex
         when '-' then [Token::NEG, char]
         when '~' then [Token::BIT_COMP, char]
         when '!' then [Token::BANG, char]
+        when '+' then [Token::ADD, char]
+        when '*' then [Token::MULT, char]
+        when '/' then [Token::DIV, char]
         when /\s/ then next
         else
           raise format('unknown token %s', char.inspect)

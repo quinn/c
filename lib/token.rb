@@ -12,6 +12,29 @@ class Token
   NEG = :NEG
   BIT_COMP = :BIT_COMP
   BANG = :BANG
+  ADD = :ADD
+  MULT = :MULT
+  DIV = :DIV
+
+  class List
+    attr_reader :arr
+
+    def initialize(arr)
+      @arr = arr
+    end
+
+    def next
+      arr.shift
+    end
+
+    def peek
+      arr[0]
+    end
+
+    def empty?
+      arr.empty?
+    end
+  end
 
   def self.keywords
     %w[
@@ -35,10 +58,26 @@ class Token
   end
 
   def to_s
-    format('<Token::%<type>s %<value>s', **to_hash)
+    format('<Token::%<type>s `%<value>s`>', **to_hash)
   end
 
   def operator?
+    [BIT_COMP, NEG, BANG, ADD, MULT, DIV].include? type
+  end
+
+  def low_op?
+    [ADD, NEG].include? type
+  end
+
+  def high_op?
+    [MULT, DIV].include? type
+  end
+
+  def un_op?
     [BIT_COMP, NEG, BANG].include? type
+  end
+
+  def bin_op?
+    [ADD, NEG, MULT, DIV].include? type
   end
 end

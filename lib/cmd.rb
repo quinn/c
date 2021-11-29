@@ -4,7 +4,7 @@ module Cmd
   module_function
 
   def compile_from_argv!
-    compile! ARGV.last
+    gen! ARGV.last
   end
 
   def lex!(filepath)
@@ -25,10 +25,10 @@ module Cmd
     compiler
   end
 
-  def compile!(filepath)
+  def gen!(filepath)
     compiler = parse!(filepath)
 
-    compile = Compile.new(compiler)
-    compile.compile!
+    generate = Generate.new(compiler)
+    generate.gen!
   end
 end

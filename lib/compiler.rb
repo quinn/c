@@ -13,6 +13,6 @@ class Compiler
   end
 
   def tokens=(tokens)
-    @tokens = tokens.dup
+    @tokens = Token::List.new(tokens.dup)
   end
 end
