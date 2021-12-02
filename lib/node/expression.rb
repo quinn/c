@@ -3,19 +3,20 @@
 module Node
   class Expression < Abstract
     def parse!
-      term = Term.new(tokens).parse!
+      logical_and = LogicalAndExp.new(tokens).parse!
 
       loop do
         token = tokens.peek
-        break unless token.low_op?
+        break unless token.type == Token::OR
 
         op = tokens.next
-        right = Term.new(tokens).parse!
 
-        term = BinOp.new(tokens, operator: op, left: term, right: right).parse!
+        right = LogicalAndExp.new(tokens).parse!
+
+        logical_and = BinOp.new(tokens, operator: op, left: logical_and, right: right).parse!
       end
 
-      term
+      logical_and
     end
 
     def gen!

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+class GenerateError < StandardError; end
+
 class Generate
   attr_reader :compiler
 

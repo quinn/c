@@ -5,11 +5,7 @@
         "rubocop": {
             "useBundler": false
         },
-        "reek": {
-            "useBundler": false,
-            "only": [],
-            "command": "off"
-        }
+        "reek": false
     },
     "ruby.format": "rubocop" // use rubocop for formatting
 }

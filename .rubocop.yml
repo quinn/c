@@ -13,3 +13,5 @@ Style/Documentation:
   Enabled: false
 Metrics/PerceivedComplexity:
   Enabled: false
+Metrics/ClassLength:
+  Enabled: false

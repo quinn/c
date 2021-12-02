@@ -15,6 +15,14 @@ class Token
   ADD = :ADD
   MULT = :MULT
   DIV = :DIV
+  AND = :AND
+  OR = :OR
+  EQ = :EQ
+  NE = :NE
+  LT = :LT
+  GT = :GT
+  LTE = :LTE
+  GTE = :GTE
 
   class List
     attr_reader :arr
@@ -79,5 +87,13 @@ class Token
 
   def bin_op?
     [ADD, NEG, MULT, DIV].include? type
+  end
+
+  def equality_op?
+    [EQ, NE].include? type
+  end
+
+  def relational_op?
+    [GT, LT, GTE, LTE].include? type
   end
 end

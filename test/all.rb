@@ -16,6 +16,8 @@ shared_examples 'stage' do |stage|
 
   context 'lexes' do
     (valid + invalid).each do |filepath|
+      next if filepath.include? 'skip_on_failure'
+
       it filepath do
         Cmd.lex! filepath
       end
@@ -24,6 +26,8 @@ shared_examples 'stage' do |stage|
 
   context 'parses' do
     valid.each do |filepath|
+      next if filepath.include? 'skip_on_failure'
+
       it filepath do
         Cmd.parse! filepath
       end
@@ -38,6 +42,8 @@ shared_examples 'stage' do |stage|
 
   context 'compiles' do
     valid.each do |filepath|
+      next if filepath.include? 'skip_on_failure'
+
       it filepath do
         actual_bin_path = filepath.sub(/\.c$/, '')
         asm_path = "#{actual_bin_path}.s"
@@ -76,4 +82,5 @@ describe 'compiler' do
   it_behaves_like 'stage', 1
   it_behaves_like 'stage', 2
   it_behaves_like 'stage', 3
+  it_behaves_like 'stage', 4
 end

@@ -11,7 +11,20 @@ class Lex
   end
 
   def lex!
-    compiler.input.each_char do |char|
+    chars = compiler.input.each_char.to_a
+
+    while chars.any?
+      char = chars.shift
+
+      case char
+      when '|'
+        char += chars.shift if chars[0] == '|'
+      when '&'
+        char += chars.shift if chars[0] == '&'
+      when '=', '!', '<', '>'
+        char += chars.shift if chars[0] == '='
+      end
+
       if /[a-zA-Z0-9]/ =~ char
         curconst << char
         next
@@ -43,6 +56,14 @@ class Lex
         when '+' then [Token::ADD, char]
         when '*' then [Token::MULT, char]
         when '/' then [Token::DIV, char]
+        when '<' then [Token::LT, char]
+        when '>' then [Token::GT, char]
+        when '&&' then [Token::AND, char]
+        when '||' then [Token::OR, char]
+        when '!=' then [Token::NE, char]
+        when '==' then [Token::EQ, char]
+        when '<=' then [Token::LTE, char]
+        when '>=' then [Token::GTE, char]
         when /\s/ then next
         else
           raise format('unknown token %s', char.inspect)
