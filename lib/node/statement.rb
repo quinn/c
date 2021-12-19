@@ -2,7 +2,8 @@
 
 module Node
   class Statement < Abstract
-    attr_reader :is_return, :expression
+    attr_reader :is_return, :is_declare, :expression, :var_type,
+                :var_name
 
     def parse!
       token = tokens.peek
@@ -10,6 +11,18 @@ module Node
       if token.type == Token::KEYWORD && token.value == 'return'
         @is_return = true
         tokens.next
+      elsif token.var_declaration?
+        @is_declare = true
+        @var_type = tokens.next.value
+
+        @var_name = tokens.next.expect!(Token::ID).value
+
+        if tokens.peek.type == Token::TERM
+          tokens.next
+          return self
+        end
+
+        tokens.next.expect!(Token::ASSIGN)
       end
 
       @expression = Expression.new(tokens).parse!

@@ -58,6 +58,7 @@ class Lex
         when '/' then [Token::DIV, char]
         when '<' then [Token::LT, char]
         when '>' then [Token::GT, char]
+        when '=' then [Token::ASSIGN, char]
         when '&&' then [Token::AND, char]
         when '||' then [Token::OR, char]
         when '!=' then [Token::NE, char]

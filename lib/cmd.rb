@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'pry'
+require 'pry-stack_explorer'
+
 module Cmd
   module_function
 

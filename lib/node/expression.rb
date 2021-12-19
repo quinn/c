@@ -3,6 +3,11 @@
 module Node
   class Expression < Abstract
     def parse!
+      if tokens.peek.type == Token::ID && tokens.double_peek.type == Token::ASSIGN
+        assign = Assignment.new(tokens).parse!
+        return assign
+      end
+
       logical_and = LogicalAndExp.new(tokens).parse!
 
       loop do

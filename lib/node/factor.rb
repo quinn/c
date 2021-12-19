@@ -2,7 +2,7 @@
 
 module Node
   class Factor < Abstract
-    attr_reader :constant_value
+    attr_reader :constant_value, :var_name
 
     def parse!
       token = tokens.peek
@@ -12,6 +12,11 @@ module Node
       if token.type == Token::CONST
 
         @constant_value = token.value
+
+        return self
+      elsif token.type == Token::ID
+
+        @var_name = token.value
 
         return self
       elsif token.type != Token::PAREN

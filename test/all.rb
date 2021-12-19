@@ -79,8 +79,10 @@ shared_examples 'stage' do |stage|
 end
 
 describe 'compiler' do
-  it_behaves_like 'stage', 1
-  it_behaves_like 'stage', 2
-  it_behaves_like 'stage', 3
-  it_behaves_like 'stage', 4
+  # it_behaves_like 'stage', 1
+  # it_behaves_like 'stage', 2
+  # it_behaves_like 'stage', 3
+  # it_behaves_like 'stage', 4
+  it_behaves_like 'stage', 5
+  # it_behaves_like 'stage', 6
 end

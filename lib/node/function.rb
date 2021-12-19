@@ -30,7 +30,7 @@ module Node
       raise ParseError, format('expected args, got %s', token) unless token.type == Token::BLOCK
 
       loop do
-        if token.type == Token::END_BLOCK
+        if tokens.peek.type == Token::END_BLOCK
           raise ParseError, format('missing return') if @statements.empty?
 
           break
@@ -38,11 +38,8 @@ module Node
 
         raise ParseError, 'unexpected end of function' if tokens.empty?
 
-        @statements << Statement.new(tokens).parse!
-
-        raise ParseError, 'unexpected end of function' if tokens.empty?
-
-        token = tokens.next
+        statement = Statement.new(tokens).parse!
+        @statements << statement
       end
 
       self
